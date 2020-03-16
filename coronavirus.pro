@@ -36,7 +36,7 @@ oplot,[0,56.5],[1000,1000],linestyle=1
 oplot,[56.5,56.5],[5,1000],linestyle=1
 oplot,[56.5,56.5],[1,2.1],linestyle=1
 
-xyouts,56.5,4,'3 days to',align=0.5,co=0,charsize=1.1
+xyouts,56.5,4,'1 days to',align=0.5,co=0,charsize=1.1
 xyouts,56.5,3,'1000 new US',align=0.5,co=0,charsize=1.1
 xyouts,56.5,2.3,'cases a day',align=0.5,co=0,charsize=1.1
 
@@ -45,7 +45,7 @@ oplot,[0,64.5],[10000,10000],linestyle=1
 oplot,[64.5,64.5],[1,30],linestyle=1
 oplot,[64.5,64.5],[100,10000],linestyle=1
 
-xyouts,66,70,'11 days to',align=0.5,co=0,charsize=1.1
+xyouts,66,70,'10 days to',align=0.5,co=0,charsize=1.1
 xyouts,66,50,'10,000 new US',align=0.5,co=0,charsize=1.1
 xyouts,66,37,'cases a day',align=0.5,co=0,charsize=1.1
 
