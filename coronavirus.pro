@@ -33,21 +33,22 @@ oplot,x,10^poly(x,uscoef),co=80,linestyle=2
 ;; lines for 1,000 cases
 gray = fsc_color('gray',2)
 oplot,[0,56.5],[1000,1000],linestyle=1
-oplot,[56.5,56.5],[5,1000],linestyle=1
-oplot,[56.5,56.5],[1,2.1],linestyle=1
+oplot,[56.5,56.5],[1,1000],linestyle=1
+;oplot,[56.5,56.5],[5,1000],linestyle=1
+;oplot,[56.5,56.5],[1,2.1],linestyle=1
 
-xyouts,56.5,4,'1 day to',align=0.5,co=0,charsize=1.1
-xyouts,56.5,3,'1000 new US',align=0.5,co=0,charsize=1.1
-xyouts,56.5,2.3,'cases a day',align=0.5,co=0,charsize=1.1
+;xyouts,56.5,4,'1 day to',align=0.5,co=0,charsize=1.1
+;xyouts,56.5,3,'1000 new US',align=0.5,co=0,charsize=1.1
+;xyouts,56.5,2.3,'cases a day',align=0.5,co=0,charsize=1.1
 
 ;; lines for 10,000 cases a new
-oplot,[0,64.5],[10000,10000],linestyle=1
-oplot,[64.5,64.5],[1,30],linestyle=1
-oplot,[64.5,64.5],[100,10000],linestyle=1
+oplot,[0,63],[10000,10000],linestyle=1
+oplot,[63,63],[1,30],linestyle=1
+oplot,[63,63],[100,10000],linestyle=1
 
-xyouts,66,70,'10 days to',align=0.5,co=0,charsize=1.1
-xyouts,66,50,'10,000 new US',align=0.5,co=0,charsize=1.1
-xyouts,66,37,'cases a day',align=0.5,co=0,charsize=1.1
+xyouts,64,70,'6 days to',align=0.5,co=0,charsize=1.1
+xyouts,64,50,'10,000 new US',align=0.5,co=0,charsize=1.1
+xyouts,64,37,'cases a day',align=0.5,co=0,charsize=1.1
 
 legend_old,['World minus China','US'],textcolor=[250,70],pos=[1,8000],charsize=1.7,box=0
 
