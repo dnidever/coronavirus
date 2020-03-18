@@ -10,7 +10,7 @@ setdisp
 file='coronavirus'
 ps_open,file,/color,thick=4,/encap
 device,/inches,xsize=8.5,ysize=8.5
-plot,[1],/nodata,xr=[1,75],yr=[1,2e4],xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
+plot,[1],/nodata,xr=[1,75],yr=[1,5e4],xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
      charsize=1.5,title='New Confirmed Coronavirus Cases',$
      xminor=4,xticks=3,xtickv=[1,20,40,60],xtickn=['Jan 21','Feb 9','Feb 29','Mar 20']
 
@@ -42,15 +42,27 @@ oplot,[56.5,56.5],[1,1000],linestyle=1
 ;xyouts,56.5,2.3,'cases a day',align=0.5,co=0,charsize=1.1
 
 ;; lines for 10,000 cases a new
-oplot,[0,63],[10000,10000],linestyle=1
-oplot,[63,63],[1,30],linestyle=1
-oplot,[63,63],[100,10000],linestyle=1
+g = first_el(where(10^poly(x,uscoef) ge 1e4,ng))
+x1e4 = x[g[0]]
+oplot,[0,x1e4],[10000,10000],linestyle=1
+oplot,[0,0]+x1e4,[1,30],linestyle=1
+oplot,[0,0]+x1e4,[100,10000],linestyle=1
 
-xyouts,64,70,'6 days to',align=0.5,co=0,charsize=1.1
+ndays1e4 = x1e4-max(str.num)
+xyouts,64,70,strtrim(long(ndays1e4),2)+' days to',align=0.5,co=0,charsize=1.1
 xyouts,64,50,'10,000 new US',align=0.5,co=0,charsize=1.1
 xyouts,64,37,'cases a day',align=0.5,co=0,charsize=1.1
 
-legend_old,['World minus China','US'],textcolor=[250,70],pos=[1,8000],charsize=1.7,box=0
+;; Today's date
+jd = systime(/julian)
+caldat,jd,month,day,year,hour,minute,second
+months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
+xyouts,5,22000,datestr,align=0,charsize=1.8,co=0
+
+legend_old,['World minus China','US'],textcolor=[250,70],charsize=1.7,box=0,pos=[2,9000]
+;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
+;pos=[1,8000]
 
 ps_close
 ps2png,file+'.eps',/eps
