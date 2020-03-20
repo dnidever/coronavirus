@@ -21,6 +21,10 @@ g1 = where(str.all gt 0)
 oplot,str[g1].num,str[g1].all,ps=8,co=250
 x = findgen(100)+28
 oplot,x,10^poly(x,wcoef),co=250,linestyle=2
+;; doubling time
+wdouble = alog10(2)/wcoef[1]
+xyouts,5,600,'Doubling Times:',align=0,charsize=1.7,co=0
+xyouts,5,350,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
 
 ;; US
 gdus = where(str.us gt 0 and str.num ge 44,ngdus)
@@ -29,6 +33,10 @@ g2 = where(str.us gt 0)
 oplot,str[g2].num,str[g2].us,ps=8,co=70,sym=1.5
 x = findgen(100)+44
 oplot,x,10^poly(x,uscoef),co=80,linestyle=2
+;; doubling time
+usdouble = alog10(2)/uscoef[1]
+xyouts,5,200,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
+
 
 ;; lines for 1,000 cases
 gray = fsc_color('gray',2)
