@@ -10,7 +10,9 @@ setdisp
 file='coronavirus'
 ps_open,file,/color,thick=4,/encap
 device,/inches,xsize=8.5,ysize=8.5
-plot,[1],/nodata,xr=[1,75],yr=[1,5e4],xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
+xr = [1,max(str.num)+15]
+yr = [1,max(str.all)*2]
+plot,[1],/nodata,xr=xr,yr=yr,xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
      charsize=1.5,title='New Confirmed Coronavirus Cases',$
      xminor=4,xticks=3,xtickv=[1,20,40,60],xtickn=['Jan 21','Feb 9','Feb 29','Mar 20']
 
@@ -66,7 +68,7 @@ jd = systime(/julian)
 caldat,jd,month,day,year,hour,minute,second
 months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
-xyouts,5,22000,datestr,align=0,charsize=1.8,co=0
+xyouts,5,yr[1]*0.5,datestr,align=0,charsize=1.8,co=0
 
 legend_old,['World minus China','US'],textcolor=[250,70],charsize=1.7,box=0,pos=[2,9000]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
