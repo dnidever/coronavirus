@@ -10,11 +10,11 @@ setdisp
 file='coronavirus'
 ps_open,file,/color,thick=4,/encap
 device,/inches,xsize=8.5,ysize=8.5
-xr = [1,max(str.num)+15]
-yr = [1,max(str.all)*2]
+xr = [1,max(str.num)+20]
+yr = [1,max(str.all)*7]
 plot,[1],/nodata,xr=xr,yr=yr,xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
      charsize=1.5,title='New Confirmed Coronavirus Cases',$
-     xminor=4,xticks=3,xtickv=[1,20,40,60],xtickn=['Jan 21','Feb 9','Feb 29','Mar 20']
+     xminor=4,xticks=4,xtickv=[1,20,40,60,80],xtickn=['Jan 21','Feb 9','Feb 29','Mar 20','Apr 9']
 
 ;; World minus China
 gdw = where(str.all gt 0 and str.num ge 30,ngdw)
@@ -22,11 +22,23 @@ wcoef = robust_poly_fit(str[gdw].num,alog10(str[gdw].all),1)
 g1 = where(str.all gt 0)
 oplot,str[g1].num,str[g1].all,ps=8,co=250
 x = findgen(100)+28
-oplot,x,10^poly(x,wcoef),co=250,linestyle=2
+oplot,x,10^poly(x,wcoef),co=250,thick=1 ;,linestyle=2
 ;; doubling time
 wdouble = alog10(2)/wcoef[1]
-xyouts,5,600,'Doubling Times:',align=0,charsize=1.7,co=0
-xyouts,5,350,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
+xyouts,5,6000,'Doubling Times:',align=0,charsize=1.7,co=0
+xyouts,5,3500,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
+
+;; Italy
+green = fsc_color('forest green',1)
+gdit = where(str.italy gt 0 and str.num gt 52,ngdit)
+itcoef = robust_poly_fit(str[gdit].num,alog10(str[gdit].italy),1)
+g2 = where(str.italy gt 0)
+oplot,str[g2].num,str[g2].italy,ps=8,co=green,sym=1.0
+x = findgen(100)+52
+;oplot,x,10^poly(x,itcoef),co=green,thick=1 ;,linestyle=2
+;; doubling time
+itdouble = alog10(2)/itcoef[1]
+;xyouts,5,1100,stringize(itdouble,ndec=1)+' days',align=0,charsize=1.7,co=green
 
 ;; US
 gdus = where(str.us gt 0 and str.num ge 44,ngdus)
@@ -34,10 +46,10 @@ uscoef = robust_poly_fit(str[gdus].num,alog10(str[gdus].us),1)
 g2 = where(str.us gt 0)
 oplot,str[g2].num,str[g2].us,ps=8,co=70,sym=1.5
 x = findgen(100)+44
-oplot,x,10^poly(x,uscoef),co=80,linestyle=2
+oplot,x,10^poly(x,uscoef),co=80,thick=5 ;,linestyle=2
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
-xyouts,5,200,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
+xyouts,5,2000,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
 
 
 ;; lines for 1,000 cases
@@ -55,13 +67,25 @@ oplot,[56.5,56.5],[1,1000],linestyle=1
 g = first_el(where(10^poly(x,uscoef) ge 1e4,ng))
 x1e4 = x[g[0]]
 oplot,[0,x1e4],[10000,10000],linestyle=1
-oplot,[0,0]+x1e4,[1,30],linestyle=1
-oplot,[0,0]+x1e4,[100,10000],linestyle=1
+oplot,[0,0]+x1e4,[1,6],linestyle=1
+oplot,[0,0]+x1e4,[30,10000],linestyle=1
 
 ndays1e4 = x1e4-max(str.num)
-xyouts,64,70,strtrim(long(ndays1e4),2)+' days to',align=0.5,co=0,charsize=1.1
-xyouts,64,50,'10,000 new US',align=0.5,co=0,charsize=1.1
-xyouts,64,37,'cases a day',align=0.5,co=0,charsize=1.1
+xyouts,63.8,20,strtrim(long(ndays1e4),2)+' days to',align=0.5,co=0,charsize=1.1
+xyouts,63.8,13,'10,000 new US',align=0.5,co=0,charsize=1.1
+xyouts,63.8,8.5,'cases a day',align=0.5,co=0,charsize=1.1
+
+;; lines for 100,000 cases a new
+g = first_el(where(10^poly(x,uscoef) ge 1e5,ng))
+x1e5 = x[g[0]]
+oplot,[0,x1e5],[1e5,1e5],linestyle=1
+oplot,[0,0]+x1e5,[1,60],linestyle=1
+oplot,[0,0]+x1e5,[300,1e5],linestyle=1
+
+ndays1e5 = x1e5-max(str.num)
+xyouts,72.5,200,strtrim(long(ndays1e5),2)+' days to',align=0.5,co=0,charsize=1.1
+xyouts,72.5,130,'100,000 new US',align=0.5,co=0,charsize=1.1
+xyouts,72.5,85,'cases a day',align=0.5,co=0,charsize=1.1
 
 ;; Today's date
 jd = systime(/julian)
@@ -70,7 +94,7 @@ months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.5,datestr,align=0,charsize=1.8,co=0
 
-legend_old,['World minus China','US'],textcolor=[250,70],charsize=1.7,box=0,pos=[2,9000]
+legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,90000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
 ;pos=[1,8000]
 
