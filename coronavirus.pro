@@ -22,7 +22,7 @@ wcoef = robust_poly_fit(str[gdw].num,alog10(str[gdw].all),1)
 g1 = where(str.all gt 0)
 oplot,str[g1].num,str[g1].all,ps=8,co=250
 x = findgen(100)+28
-oplot,x,10^poly(x,wcoef),co=250,thick=1 ;,linestyle=2
+oplot,x,10^poly(x,wcoef),co=250,thick=3 ;,linestyle=2
 ;; doubling time
 wdouble = alog10(2)/wcoef[1]
 xyouts,5,6000,'Doubling Times:',align=0,charsize=1.7,co=0
@@ -46,7 +46,7 @@ uscoef = robust_poly_fit(str[gdus].num,alog10(str[gdus].us),1)
 g2 = where(str.us gt 0)
 oplot,str[g2].num,str[g2].us,ps=8,co=70,sym=1.5
 x = findgen(100)+44
-oplot,x,10^poly(x,uscoef),co=80,thick=5 ;,linestyle=2
+oplot,x,10^poly(x,uscoef),co=80,thick=3 ;,linestyle=2
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
 xyouts,5,2000,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
