@@ -67,13 +67,14 @@ oplot,[56.5,56.5],[1,1000],linestyle=1
 g = first_el(where(10^poly(x,uscoef) ge 1e4,ng))
 x1e4 = x[g[0]]
 oplot,[0,x1e4],[10000,10000],linestyle=1
-oplot,[0,0]+x1e4,[1,6],linestyle=1
-oplot,[0,0]+x1e4,[30,10000],linestyle=1
+oplot,[0,0]+x1e4,[1,1e4],linestyle=1
+;oplot,[0,0]+x1e4,[1,6],linestyle=1
+;oplot,[0,0]+x1e4,[30,10000],linestyle=1
 
-ndays1e4 = x1e4-max(str.num)
-xyouts,63.8,20,strtrim(long(ndays1e4),2)+' days to',align=0.5,co=0,charsize=1.1
-xyouts,63.8,13,'10,000 new US',align=0.5,co=0,charsize=1.1
-xyouts,63.8,8.5,'cases a day',align=0.5,co=0,charsize=1.1
+;ndays1e4 = x1e4-max(str.num)
+;xyouts,63.8,20,strtrim(long(ndays1e4),2)+' days to',align=0.5,co=0,charsize=1.1
+;xyouts,63.8,13,'10,000 new US',align=0.5,co=0,charsize=1.1
+;xyouts,63.8,8.5,'cases a day',align=0.5,co=0,charsize=1.1
 
 ;; lines for 100,000 cases a new
 g = first_el(where(10^poly(x,uscoef) ge 1e5,ng))
