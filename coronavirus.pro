@@ -4,13 +4,20 @@ pro coronavirus
 ;; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports
   
 str = importascii('coronavirus.txt',/header)
+usdaily = importascii('us-daily.csv',delim=',',/header)  ; from covidtracking.com
+; add the covidtracking data to STR
+add_tag,str,'us2',0L,str
+; convert to MMDDYYYY
+date2 = strmid(strtrim(usdaily.date,2),4,4)+strmid(strtrim(usdaily.date,2),0,4)
+match,str.date,date2,ind1,ind2,/sort
+str[ind1].us2 = long(usdaily[ind2].positiveincrease)
 
 setdisp
 !p.font = 0
 file='coronavirus'
 ps_open,file,/color,thick=4,/encap
-device,/inches,xsize=8.5,ysize=8.5
-xr = [1,max(str.num)+20]
+device,/inches,xsize=10.0,ysize=8.5
+xr = [1,max(str.num)+14]
 yr = [1,max(str.all)*7]
 plot,[1],/nodata,xr=xr,yr=yr,xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cases',$
      charsize=1.5,title='New Confirmed Coronavirus Cases',$
@@ -44,12 +51,20 @@ itdouble = alog10(2)/itcoef[1]
 gdus = where(str.us gt 0 and str.num ge 44,ngdus)
 uscoef = robust_poly_fit(str[gdus].num,alog10(str[gdus].us),1)
 g2 = where(str.us gt 0)
-oplot,str[g2].num,str[g2].us,ps=8,co=70,sym=1.5
+plotsym,0,1.2,thick=5
+oplot,str[g2].num,str[g2].us,ps=8,co=70 ;,sym=1.2
 x = findgen(100)+44
 oplot,x,10^poly(x,uscoef),co=80,thick=3 ;,linestyle=2
+;; covidtracking.com data
+g3 = where(str.us2 gt 0)
+oplot,str[g3].num,str[g3].us2,ps=1,co=70,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
 xyouts,5,2000,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
+oplot,[11],[4e4],ps=8,co=70
+xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
+oplot,[22],[4e4],ps=1,co=70,sym=1.2
+xyouts,23,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
 
 
 ;; lines for 1,000 cases
@@ -93,7 +108,7 @@ jd = systime(/julian)
 caldat,jd,month,day,year,hour,minute,second
 months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
-xyouts,5,yr[1]*0.5,datestr,align=0,charsize=1.8,co=0
+xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
 legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,90000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
