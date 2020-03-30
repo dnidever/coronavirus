@@ -23,7 +23,7 @@ plot,[1],/nodata,xr=xr,yr=yr,xs=1,ys=1,/ylog,xtit='Date',ytit='New Confirmed Cas
      charsize=1.5,title='New Confirmed Coronavirus Cases',$
      xminor=4,xticks=4,xtickv=[1,20,40,60,80],xtickn=['Jan 21','Feb 9','Feb 29','Mar 20','Apr 9']
 
-;; World minus China
+;; ---- World minus China ----
 gdw = where(str.all gt 0 and str.num ge 30,ngdw)
 wcoef = robust_poly_fit(str[gdw].num,alog10(str[gdw].all),1)
 g1 = where(str.all gt 0)
@@ -35,7 +35,7 @@ wdouble = alog10(2)/wcoef[1]
 xyouts,5,6000,'Doubling Times:',align=0,charsize=1.7,co=0
 xyouts,5,3500,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
 
-;; Italy
+;; ---- Italy ----
 green = fsc_color('forest green',1)
 gdit = where(str.italy gt 0 and str.num gt 52,ngdit)
 itcoef = robust_poly_fit(str[gdit].num,alog10(str[gdit].italy),1)
@@ -47,7 +47,14 @@ x = findgen(100)+52
 itdouble = alog10(2)/itcoef[1]
 ;xyouts,5,1100,stringize(itdouble,ndec=1)+' days',align=0,charsize=1.7,co=green
 
-;; US
+; fit logistic curve to Italy data
+initpar = [150000.,68.0,0.15]
+fpar = mpfitfun('func_logisticderiv',str[g2].num,str[g2].italy,str[g2].num*0+1,initpar)
+x = findgen(100)+30
+m = func_logisticderiv(x,fpar)
+oplot,x,m,co=green,thick=5,linestyle=2
+
+;; ---- US ----
 gdus = where(str.us gt 0 and str.num ge 44,ngdus)
 uscoef = robust_poly_fit(str[gdus].num,alog10(str[gdus].us),1)
 g2 = where(str.us gt 0)
@@ -66,13 +73,23 @@ xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
 oplot,[22],[4e4],ps=1,co=70,sym=1.2
 xyouts,23,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
 
-;; just the last week
+;; exponential, just the last week
 g4 = where(str.num ge 58 and str.us2 gt 0,ng4)
 uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
 x = findgen(30)+62
 oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
 xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 7 days)',align=0,charsize=1.7,co=90
+
+; logistic curve
+initpar = [150000.,80.0,0.15]
+;fpar = mpfitfun('func_logisticderivlog',str[g3].num,alog10(str[g3].us2),str[g3].num*0+1,initpar)
+g4 = where(str.num ge 45 and str.us2 gt 0,ng4)
+;g4 = where(str.us2 gt 0,ng4)
+fpar = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us2,sqrt(str[g4].us2)>1,initpar)
+x = findgen(100)+45
+m = func_logisticderiv(x,fpar)
+;oplot,x,m,co=80,thick=5,linestyle=2
 
 
 ;; lines for 1,000 cases
@@ -118,6 +135,9 @@ caldat,jd,month,day,year,hour,minute,second
 months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
+
+xyouts,8.5,420,'Logistic',align=0,charsize=1.7
+oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
 
 legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,90000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
