@@ -79,15 +79,15 @@ uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
 x = findgen(30)+62
 oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
-xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 7 days)',align=0,charsize=1.7,co=90
+xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 8 days)',align=0,charsize=1.7,co=90
 
 ; logistic curve
 initpar = [150000.,80.0,0.15]
 ;fpar = mpfitfun('func_logisticderivlog',str[g3].num,alog10(str[g3].us2),str[g3].num*0+1,initpar)
-g4 = where(str.num ge 45 and str.us2 gt 0,ng4)
+g4 = where(str.num ge 50 and str.us2 gt 0,ng4)
 ;g4 = where(str.us2 gt 0,ng4)
 fpar = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us2,sqrt(str[g4].us2)>1,initpar)
-x = findgen(100)+45
+x = findgen(100)+50
 m = func_logisticderiv(x,fpar)
 ;oplot,x,m,co=80,thick=5,linestyle=2
 
