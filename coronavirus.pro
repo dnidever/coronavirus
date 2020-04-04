@@ -84,9 +84,9 @@ oplot,[22],[4e4],ps=1,co=70,sym=1.2
 xyouts,23,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
 
 ;; exponential, just the last week
-g4 = where(str.num ge 58 and str.us2 gt 0,ng4)
+g4 = where(str.num ge 65 and str.us2 gt 0,ng4)
 uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
-x = findgen(30)+62
+x = findgen(30)+65
 oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
 xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 11 days)',align=0,charsize=1.7,co=90
