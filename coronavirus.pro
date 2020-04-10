@@ -77,7 +77,7 @@ g3 = where(str.us2 gt 0)
 oplot,str[g3].num,str[g3].us2,ps=1,co=50,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
-xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 35 days)',align=0,charsize=1.7,co=50
+xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 36 days)',align=0,charsize=1.7,co=50
 oplot,[11],[4e4],ps=8,co=70
 xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
 oplot,[22],[4e4],ps=1,co=70,sym=1.2
@@ -89,7 +89,7 @@ uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
 x = findgen(30)+65
 oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
-xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 15 days)',align=0,charsize=1.7,co=90
+xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 16 days)',align=0,charsize=1.7,co=90
 
 ; logistic curve
 initpar = [150000.,80.0,0.30]
