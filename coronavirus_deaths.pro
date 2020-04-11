@@ -42,13 +42,13 @@ xyouts,5,600,'Doubling Times:',align=0,charsize=1.7,co=0
 xyouts,5,350,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
 
 ; fit logistic curve to world data
-initpar = [2e5,75.0,0.30]
+initpar = [2e5,80.0,0.30]
 g1b = where(str.all_deaths gt 0 and str.num gt 45)
 fpar1 = mpfitfun('func_logisticderivlog',str[g1b].num,alog10(str[g1b].all_deaths),str[g1b].num*0+1,initpar)
 x = findgen(100)+44
 m = func_logisticderiv(x,fpar1)
 oplot,x,m,co=250,thick=5,linestyle=2
-
+;tot = long(total(func_logisticderiv(findgen(200),fpar1)))
 
 ;;; ---- Italy ----
 green = fsc_color('forest green',1)
@@ -69,7 +69,7 @@ fpar2 = mpfitfun('func_logisticderiv',str[g2].num,str[g2].italy_deaths,sqrt(str[
 x = findgen(100)+30
 m = func_logisticderiv(x,fpar2)
 oplot,x,m,co=green,thick=5,linestyle=2
-
+;tot = long(total(func_logisticderiv(findgen(200),fpar2)))
 
 ;; ---- US ----
 gdus = where(str.us_deaths2 gt 0 and str.num ge 44,ngdus)
@@ -98,22 +98,23 @@ xyouts,5,200,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
 ;usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
 ;xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 11 days)',align=0,charsize=1.7,co=90
 ;
-;; logistic curve
-;initpar = [150000.,80.0,0.30]
-;;initpar = [4e4,80.0,fpar2[2]]
-;;fpar = mpfitfun('func_logisticderivlog',str[g3].num,alog10(str[g3].us2),str[g3].num*0+1,initpar)
-;g4 = where(str.num ge 40 and str.us2 gt 0,ng4)
-;;g4 = where(str.us2 gt 0,ng4)
-;parinfo = replicate({limited:[0,0],limits:[0.0,0.0],fixed:0},3)
-;parinfo[2].fixed = 1
-;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].us2*0+1,initpar)
-;;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),sqrt(str[g4].us2)>1,initpar)
-;;fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us2,sqrt(str[g4].us2)>1,initpar,parinfo=parinfo)
-;;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
-;x = findgen(100)+40
-;m = func_logisticderiv(x,fpar3)
-;;oplot,x,m,co=80,thick=5,linestyle=2
-
+; logistic curve
+initpar = [10000.,90.0,0.20]
+;initpar = [4e4,80.0,fpar2[2]]
+;fpar = mpfitfun('func_logisticderivlog',str[g3].num,alog10(str[g3].us2),str[g3].num*0+1,initpar)
+g4 = where(str.num ge 50 and str.us_deaths2 gt 0,ng4)
+;g4 = where(str.us2 gt 0,ng4)
+parinfo = replicate({limited:[0,0],limits:[0.0,0.0],fixed:0},3)
+parinfo[2].fixed = 1
+;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us_deaths2),str[g4].us2*0+1,initpar)
+fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us_deaths2,str[g4].us2*0+1,initpar)
+;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),sqrt(str[g4].us2)>1,initpar)
+;fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us2,sqrt(str[g4].us2)>1,initpar,parinfo=parinfo)
+;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
+x = findgen(100)+50
+m = func_logisticderiv(x,fpar3)
+;oplot,x,m,co=80,thick=5,linestyle=2
+;tot = long(total(func_logisticderiv(findgen(200),fpar3)))
 
 ;; lines for 1,000 cases
 gray = fsc_color('gray',2)
@@ -161,6 +162,10 @@ xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
 xyouts,8.5,44,'Logistic',align=0,charsize=1.7
 oplot,[5,8],[50,50],linestyle=2,co=0,thick=6
+
+;; Total deaths
+
+;; End date
 
 legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,9000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left
