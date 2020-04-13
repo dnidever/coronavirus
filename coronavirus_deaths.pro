@@ -113,7 +113,7 @@ fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us_deaths2,str[g4].us2
 ;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
 x = findgen(100)+50
 m = func_logisticderiv(x,fpar3)
-;oplot,x,m,co=80,thick=5,linestyle=2
+oplot,x,m,co=80,thick=5,linestyle=2
 ;tot = long(total(func_logisticderiv(findgen(200),fpar3)))
 
 ;; lines for 1,000 cases

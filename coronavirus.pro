@@ -57,9 +57,12 @@ itdouble = alog10(2)/itcoef[1]
 ;xyouts,5,1100,stringize(itdouble,ndec=1)+' days',align=0,charsize=1.7,co=green
 
 ; fit logistic curve to Italy data
-initpar = [150000.,68.0,0.15]
-fpar2 = mpfitfun('func_logisticderiv',str[g2].num,str[g2].italy,str[g2].num*0+1,initpar)
-x = findgen(100)+30
+;initpar = [150000.,68.0,0.15]
+initpar = [200000.,69.0,0.20]
+g2b = where(str.italy gt 0 and str.num gt 40)
+;fpar2 = mpfitfun('func_logisticderiv',str[g2b].num,str[g2b].italy,str[g2b].num*0+1,initpar)
+fpar2 = mpfitfun('func_logisticderivlog',str[g2b].num,alog10(str[g2b].italy),str[g2b].num*0+1,initpar)
+x = findgen(100)+40
 m = func_logisticderiv(x,fpar2)
 oplot,x,m,co=green,thick=5,linestyle=2
 
@@ -77,7 +80,7 @@ g3 = where(str.us2 gt 0)
 oplot,str[g3].num,str[g3].us2,ps=1,co=50,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
-xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 37 days)',align=0,charsize=1.7,co=50
+xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 40 days)',align=0,charsize=1.7,co=50
 oplot,[11],[4e4],ps=8,co=70
 xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
 oplot,[22],[4e4],ps=1,co=70,sym=1.2
@@ -89,13 +92,13 @@ uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
 x = findgen(30)+65
 oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
-xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 17 days)',align=0,charsize=1.7,co=90
+xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 20 days)',align=0,charsize=1.7,co=90
 
 ; logistic curve
 initpar = [150000.,80.0,0.30]
 ;initpar = [4e4,80.0,fpar2[2]]
 ;fpar = mpfitfun('func_logisticderivlog',str[g3].num,alog10(str[g3].us2),str[g3].num*0+1,initpar)
-g4 = where(str.num ge 40 and str.us2 gt 0,ng4)
+g4 = where(str.num ge 58 and str.us2 gt 0,ng4)
 ;g4 = where(str.us2 gt 0,ng4)
 parinfo = replicate({limited:[0,0],limits:[0.0,0.0],fixed:0},3)
 parinfo[2].fixed = 1
@@ -103,9 +106,9 @@ fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4]
 ;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),sqrt(str[g4].us2)>1,initpar)
 ;fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us2,sqrt(str[g4].us2)>1,initpar,parinfo=parinfo)
 ;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
-x = findgen(100)+40
+x = findgen(100)+58
 m = func_logisticderiv(x,fpar3)
-;oplot,x,m,co=80,thick=5,linestyle=2
+oplot,x,m,co=80,thick=5,linestyle=2
 
 
 ;; lines for 1,000 cases
