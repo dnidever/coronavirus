@@ -29,14 +29,14 @@ wcoef = robust_poly_fit(str[gdw].num,alog10(str[gdw].all),1)
 g1 = where(str.all gt 0)
 oplot,str[g1].num,str[g1].all,ps=8,co=250
 x = findgen(100)+28
-oplot,x,10^poly(x,wcoef),co=250,thick=3 ;,linestyle=2
+;oplot,x,10^poly(x,wcoef),co=250,thick=3 ;,linestyle=2
 ;; doubling time
 wdouble = alog10(2)/wcoef[1]
-xyouts,5,6000,'Doubling Times:',align=0,charsize=1.7,co=0
-xyouts,5,3500,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
+;xyouts,5,6000,'Doubling Times:',align=0,charsize=1.7,co=0
+;xyouts,5,3500,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
 
 ; fit logistic curve to Italy data
-initpar = [2e6,75.0,0.30]
+initpar = [1e6,80.0,0.50]
 g1b = where(str.all gt 0 and str.num gt 40)
 fpar1 = mpfitfun('func_logisticderivlog',str[g1b].num,alog10(str[g1b].all),str[g1b].num*0+1,initpar)
 x = findgen(100)+40
@@ -80,7 +80,7 @@ g3 = where(str.us2 gt 0)
 oplot,str[g3].num,str[g3].us2,ps=1,co=50,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
-xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 42 days)',align=0,charsize=1.7,co=50
+;xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 42 days)',align=0,charsize=1.7,co=50
 oplot,[11],[4e4],ps=8,co=70
 xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
 oplot,[22],[4e4],ps=1,co=70,sym=1.2
@@ -90,9 +90,9 @@ xyouts,23,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
 g4 = where(str.num ge 65 and str.us2 gt 0,ng4)
 uscoef_thisweek = robust_poly_fit(str[g4].num,alog10(str[g4].us2),1)
 x = findgen(30)+65
-oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
+;oplot,x,10^poly(x,uscoef_thisweek),co=90,thick=3
 usdouble_thisweek = alog10(2)/uscoef_thisweek[1]
-xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 22 days)',align=0,charsize=1.7,co=90
+;xyouts,5,1100,stringize(usdouble_thisweek,ndec=1)+' days (last 22 days)',align=0,charsize=1.7,co=90
 
 ; logistic curve
 initpar = [150000.,80.0,0.30]
@@ -155,8 +155,10 @@ months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
-xyouts,8.5,420,'Logistic',align=0,charsize=1.7
-oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
+;xyouts,8.5,420,'Logistic',align=0,charsize=1.7
+;oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
+xyouts,8.5,4200,'Logistic',align=0,charsize=1.7
+oplot,[5,8],[5000,5000],linestyle=2,co=0,thick=6
 
 legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,90000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left

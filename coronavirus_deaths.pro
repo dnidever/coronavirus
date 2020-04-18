@@ -35,11 +35,11 @@ wcoef = robust_poly_fit(str[gdw].num,alog10(str[gdw].all_deaths),1)
 g1 = where(str.all_deaths gt 0)
 oplot,str[g1].num,str[g1].all_deaths,ps=8,co=250
 x = findgen(100)+28
-oplot,x,10^poly(x,wcoef),co=250,thick=3 ;,linestyle=2
+;oplot,x,10^poly(x,wcoef),co=250,thick=3 ;,linestyle=2
 ;; doubling time
 wdouble = alog10(2)/wcoef[1]
-xyouts,5,600,'Doubling Times:',align=0,charsize=1.7,co=0
-xyouts,5,350,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
+;xyouts,5,600,'Doubling Times:',align=0,charsize=1.7,co=0
+;xyouts,5,350,stringize(wdouble,ndec=1)+' days',align=0,charsize=1.7,co=250
 
 ; fit logistic curve to world data
 initpar = [2e5,80.0,0.30]
@@ -78,13 +78,13 @@ g2 = where(str.us_deaths gt 0)
 plotsym,0,1.2,thick=5
 oplot,str[g2].num,str[g2].us_deaths2,ps=8,co=70 ;,sym=1.2
 x = findgen(100)+44
-oplot,x,10^poly(x,uscoef),co=80,thick=3 ;,linestyle=2
+;oplot,x,10^poly(x,uscoef),co=80,thick=3 ;,linestyle=2
 ;; covidtracking.com data
 ;g3 = where(str.us_deaths2 gt 0)
 ;oplot,str[g3].num,str[g3].us_deaths2,ps=1,co=70,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
-xyouts,5,200,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
+;xyouts,5,200,stringize(usdouble,ndec=1)+' days',align=0,charsize=1.7,co=70
 ;oplot,[11],[4e4],ps=8,co=70
 ;xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
 ;oplot,[22],[4e4],ps=1,co=70,sym=1.2
@@ -160,8 +160,10 @@ months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
-xyouts,8.5,44,'Logistic',align=0,charsize=1.7
-oplot,[5,8],[50,50],linestyle=2,co=0,thick=6
+;xyouts,8.5,44,'Logistic',align=0,charsize=1.7
+;oplot,[5,8],[50,50],linestyle=2,co=0,thick=6
+xyouts,8.5,440,'Logistic',align=0,charsize=1.7
+oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
 
 ;; Total deaths
 
