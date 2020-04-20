@@ -4,7 +4,7 @@ pro coronavirus_deaths
 ;; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports
   
 str = importascii('coronavirus.txt',/header)
-usdaily = importascii('us-daily.csv',delim=',',/header) ; from covidtracking.com
+usdaily = importascii('daily.csv',delim=',',/header) ; from covidtracking.com
 ind = reverse(lindgen(n_elements(usdaily)))
 usdaily = usdaily[ind]
 add_tag,usdaily,'deaths',0L,usdaily

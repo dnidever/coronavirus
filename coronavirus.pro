@@ -4,7 +4,7 @@ pro coronavirus
 ;; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports
   
 str = importascii('coronavirus.txt',/header)
-usdaily = importascii('us-daily.csv',delim=',',/header)  ; from covidtracking.com
+usdaily = importascii('daily.csv',delim=',',/header)  ; from covidtracking.com
 ; add the covidtracking data to STR
 add_tag,str,'us2',0L,str
 ; convert to MMDDYYYY
@@ -81,10 +81,10 @@ oplot,str[g3].num,str[g3].us2,ps=1,co=50,sym=1.3,thick=5
 ;; doubling time
 usdouble = alog10(2)/uscoef[1]
 ;xyouts,5,2000,stringize(usdouble,ndec=1)+' days (last 42 days)',align=0,charsize=1.7,co=50
-oplot,[11],[4e4],ps=8,co=70
-xyouts,12,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
-oplot,[22],[4e4],ps=1,co=70,sym=1.2
-xyouts,23,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
+oplot,[12],[4e4],ps=8,co=70
+xyouts,13,3.6e4,'WHO/CDC',align=0,co=70,charsize=1.0
+oplot,[26],[4e4],ps=1,co=70,sym=1.2
+xyouts,27,3.6e4,'covidtracking.com',align=0,co=70,charsize=1.0
 
 ;; exponential, just the last week
 g4 = where(str.num ge 65 and str.us2 gt 0,ng4)
