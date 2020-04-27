@@ -41,7 +41,7 @@ g1b = where(str.all gt 0 and str.num gt 40)
 fpar1 = mpfitfun('func_logisticderivlog',str[g1b].num,alog10(str[g1b].all),str[g1b].num*0+1,initpar)
 x = findgen(100)+40
 m = func_logisticderiv(x,fpar1)
-oplot,x,m,co=250,thick=5,linestyle=2
+;oplot,x,m,co=250,thick=5,linestyle=2
 
 
 ;; ---- Italy ----
@@ -64,7 +64,7 @@ g2b = where(str.italy gt 0 and str.num gt 40)
 fpar2 = mpfitfun('func_logisticderivlog',str[g2b].num,alog10(str[g2b].italy),str[g2b].num*0+1,initpar)
 x = findgen(100)+40
 m = func_logisticderiv(x,fpar2)
-oplot,x,m,co=green,thick=5,linestyle=2
+;oplot,x,m,co=green,thick=5,linestyle=2
 
 
 ;; ---- US ----
@@ -108,7 +108,7 @@ fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4]
 ;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
 x = findgen(100)+58
 m = func_logisticderiv(x,fpar3)
-oplot,x,m,co=80,thick=5,linestyle=2
+;oplot,x,m,co=80,thick=5,linestyle=2
 
 
 ;; lines for 1,000 cases
@@ -155,10 +155,10 @@ months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
-;xyouts,8.5,420,'Logistic',align=0,charsize=1.7
-;oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
-xyouts,8.5,4200,'Logistic',align=0,charsize=1.7
-oplot,[5,8],[5000,5000],linestyle=2,co=0,thick=6
+;;xyouts,8.5,420,'Logistic',align=0,charsize=1.7
+;;oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
+;xyouts,8.5,4200,'Logistic',align=0,charsize=1.7
+;oplot,[5,8],[5000,5000],linestyle=2,co=0,thick=6
 
 legend_old,['World minus China','US','Italy'],textcolor=[250,70,green],charsize=1.7,box=0,pos=[2,90000L]
 ;legend_old,[datestr,'','World minus China','US'],textcolor=[0,255,250,70],charsize=1.7,box=0,/top,/left

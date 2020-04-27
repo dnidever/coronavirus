@@ -8,7 +8,7 @@ usdaily = importascii('daily.csv',delim=',',/header) ; from covidtracking.com
 ind = reverse(lindgen(n_elements(usdaily)))
 usdaily = usdaily[ind]
 add_tag,usdaily,'deaths',0L,usdaily
-usdaily.deaths = [0,slope(usdaily.death)]
+usdaily.deaths = [0,slope(long(usdaily.death))]
 ; add the covidtracking data to STR
 add_tag,str,'us2',0L,str
 ; convert to MMDDYYYY
@@ -47,7 +47,7 @@ g1b = where(str.all_deaths gt 0 and str.num gt 45)
 fpar1 = mpfitfun('func_logisticderivlog',str[g1b].num,alog10(str[g1b].all_deaths),str[g1b].num*0+1,initpar)
 x = findgen(100)+44
 m = func_logisticderiv(x,fpar1)
-oplot,x,m,co=250,thick=5,linestyle=2
+;oplot,x,m,co=250,thick=5,linestyle=2
 ;tot = long(total(func_logisticderiv(findgen(200),fpar1)))
 
 ;;; ---- Italy ----
@@ -68,7 +68,7 @@ initpar = [15000.,68.0,0.15]
 fpar2 = mpfitfun('func_logisticderiv',str[g2].num,str[g2].italy_deaths,sqrt(str[g2].italy_deaths>1),initpar)
 x = findgen(100)+30
 m = func_logisticderiv(x,fpar2)
-oplot,x,m,co=green,thick=5,linestyle=2
+;oplot,x,m,co=green,thick=5,linestyle=2
 ;tot = long(total(func_logisticderiv(findgen(200),fpar2)))
 
 ;; ---- US ----
@@ -113,7 +113,7 @@ fpar3 = mpfitfun('func_logisticderiv',str[g4].num,str[g4].us_deaths2,str[g4].us2
 ;fpar3 = mpfitfun('func_logisticderivlog',str[g4].num,alog10(str[g4].us2),str[g4].num*0+1,initpar,parinfo=parinfo)
 x = findgen(100)+50
 m = func_logisticderiv(x,fpar3)
-oplot,x,m,co=80,thick=5,linestyle=2
+;oplot,x,m,co=80,thick=5,linestyle=2
 ;tot = long(total(func_logisticderiv(findgen(200),fpar3)))
 
 ;; lines for 1,000 cases
@@ -160,10 +160,10 @@ months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec
 datestr = months[month-1]+' '+strtrim(long(day),2)+', '+strtrim(long(year),2)
 xyouts,5,yr[1]*0.45,datestr,align=0,charsize=1.8,co=0
 
-;xyouts,8.5,44,'Logistic',align=0,charsize=1.7
-;oplot,[5,8],[50,50],linestyle=2,co=0,thick=6
-xyouts,8.5,440,'Logistic',align=0,charsize=1.7
-oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
+;;xyouts,8.5,44,'Logistic',align=0,charsize=1.7
+;;oplot,[5,8],[50,50],linestyle=2,co=0,thick=6
+;xyouts,8.5,440,'Logistic',align=0,charsize=1.7
+;oplot,[5,8],[500,500],linestyle=2,co=0,thick=6
 
 ;; Total deaths
 
